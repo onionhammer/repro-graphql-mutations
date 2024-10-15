@@ -3,6 +3,8 @@ namespace Repro.GraphQLMutations;
 [QueryType]
 public class Query
 {
+    public string Hello => "World";
+
     public BaseThing? GetThing(string? name) => name switch
     {
         "Car" => new Car { Name = name, Make = "Toyota" },
