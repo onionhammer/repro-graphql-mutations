@@ -29,7 +29,14 @@ public class Partner
 
 public class Lead
 {
-    public string GetPartnerName([ScopedState("PartnerId")] string id)
+    public string Id => "LeadId";
+
+}
+
+[ObjectType<Lead>]
+public static partial class LeadType
+{
+    public static string GetPartnerName([ScopedState("PartnerId")] string id)
     {
         return $"Partner {id}";
     }
