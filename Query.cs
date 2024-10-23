@@ -1,3 +1,5 @@
+using HotChocolate.Resolvers;
+
 namespace Repro.GraphQLMutations;
 
 [QueryType]
@@ -5,32 +7,23 @@ public class Query
 {
     public string Hello => "World";
 
-    public BaseThing? GetThing(string? name) => name switch
+
+    public Partner GetPartner(IResolverContext context)
     {
-        "Car" => new Car { Name = name, Make = "Toyota" },
-        "Boat" => new Boat { Name = name, Make = "Yamaha", Length = 10 },
-        _ => null
-    };
+        var id = new Guid("8515658c-e431-48c0-afab-eeee66ad5d59");
+        context.SetScopedState("PartnerId", id);
+
+        return new Partner();
+    }
 }
 
-
-[InterfaceType]
-public interface BaseThing
+public class Partner
 {
-    public string? Name { get; }
-}
+    public string Name => "Partner";
 
-[ObjectType]
-public class Car : BaseThing
-{
-    public required string Name { get; set; }
-    public required string Make { get; set; }
-}
+    public string GetSomething([ScopedState("PartnerId")] Guid id)
+    {
+        return id.ToString();
+    }
 
-[ObjectType]
-public class Boat : BaseThing
-{
-    public required string Name { get; set; }
-    public required string Make { get; set; }
-    public int Length { get; set; }
 }
