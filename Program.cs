@@ -1,9 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthorization();
+
 var graphql = builder.Services
     .AddGraphQLServer()
     .AddTypes()
     .AddMutationConventions()
+    .AddAuthorization()
     .ModifyOptions(static o => 
     {
         // o.DefaultBindingBehavior = BindingBehavior.Explicit;

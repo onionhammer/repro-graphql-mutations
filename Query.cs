@@ -1,3 +1,4 @@
+using HotChocolate.Authorization;
 using HotChocolate.Resolvers;
 
 namespace Repro.GraphQLMutations;
@@ -6,7 +7,6 @@ namespace Repro.GraphQLMutations;
 public class Query
 {
     public string Hello => "World";
-
 
     public Partner GetPartner(IResolverContext context)
     {
@@ -21,9 +21,9 @@ public class Partner
 {
     public string Name => "Partner";
 
+    [Authorize("Partner")]
     public string GetSomething([ScopedState("PartnerId")] Guid id)
     {
         return id.ToString();
     }
-
 }
